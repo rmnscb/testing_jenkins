@@ -177,7 +177,7 @@ pipeline {
      steps {
        // sh "mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dsonar.branch=${env.BRANCH_NAME}"
         sh " mvn sonar:sonar \
-  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.host.url=http://sonarqube:9000 \
   -Dsonar.login=fd8bfb60348c7b145dd631dc4ff1d88990ddebbe" 
 		
 
