@@ -163,6 +163,7 @@ http://sonarqube:9000
 </properties>
 </profile>
 </profiles>
+		  
 	</reporting>
 
 </project>
