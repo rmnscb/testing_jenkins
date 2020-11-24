@@ -2,21 +2,25 @@ pipeline {
  agent any
  environment {
   // This can be nexus3 or nexus2
-  NEXUS_VERSION = "nexus3"
+  NEXUS_VERSION = "nexus2"
   // This can be http or https
   NEXUS_PROTOCOL = "http"
   // Where your Nexus is running. In my case:
-  NEXUS_URL = "ec2-52-212-29-159.eu-west-1.compute.amazonaws.com:8081"
+  // NEXUS_URL = "ec2-52-212-29-159.eu-west-1.compute.amazonaws.com:8081"
+   NEXUS_URL = "nexus:8081"
   // Repository where we will upload the artifact
   NEXUS_REPOSITORY = "maven-snapshots"
   // Jenkins credential id to authenticate to Nexus OSS
   NEXUS_CREDENTIAL_ID = "nexus-credentials"
   /* 
-    Windows: set the ip address of docker host. In my case 192.168.99.100.
-    to obtains this address : $ docker-machine ip
-    Linux: set localhost to SONARQUBE_URL
+ Notice : I put as url nexus:8081 
+ but I could also put 192.168.99.100 (localhost for Linux) 
+ but since in our case Jenkins and Nexus are in the same network named “devops”, 
+ so the resolution of DNS between the containers will be made automatically by Docker.
+  i.e we can use either @ip, hostname (default service name) or the id of the container
+  to ping/connect to the containers.
   */
-  SONARQUBE_URL = "http://172.18.0.3"
+  SONARQUBE_URL = "http://sonarqube" 
   SONARQUBE_PORT = "9000"
   SONARQUBE_TOKEN = "76e028134d617de20fb2a66664a3f995907984b9"
  }
@@ -54,7 +58,7 @@ pipeline {
      }
      steps {
       sh ' mvn checkstyle:checkstyle'
-      recordIssues enabledForFailure: true, tool: checkStyle()
+      recordIssues enabledForFailure: true, tool: checkStyle(pattern: '**/target/checkstyle-result.xml') 	  
 	  
 	  // no encontrou este plugin no jenkins, eu esquisei peo plugin e nao encontro pagina error 404
 	  // https://github.com/jenkinsci/checkstyle-plugin This plugin reached end-of-life.
@@ -129,8 +133,8 @@ pipeline {
      steps {
       sh ' mvn pmd:pmd'
       // using pmd plugin
-	  recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/pmd.xml')
-     // step([$class: 'PmdPublisher', pattern: '**/target/pmd.xml'])
+	  // recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
+    
      }
     }
     stage('Findbugs') {
@@ -143,10 +147,9 @@ pipeline {
      }
      steps {
       sh ' mvn findbugs:findbugs'
-	  recordIssues enabledForFailure: true, tool: findBugs(pattern: '**/findbugsXml.xml')
+	  // recordIssues enabledForFailure: true, tool: findBugs(pattern: '**/target/findbugsXml.xml')
 	   
-      // using findbugs plugin
-      // findbugs pattern: '**/target/findbugsXml.xml'
+
      }
     }
     stage('JavaDoc') {
@@ -159,8 +162,8 @@ pipeline {
      }
      steps {
       sh ' mvn javadoc:javadoc'
-	  recordIssues enabledForFailure: true, tools: [mavenConsole(), java(), javaDoc()]
-      // step([$class: 'JavadocArchiver', javadocDir: './target/site/apidocs', keepAll: 'true'])
+	 // recordIssues enabledForFailure: true, tools: [mavenConsole(), java(), javaDoc()]
+      
      }
     }
     stage('SonarQube') {
@@ -172,7 +175,8 @@ pipeline {
       }
      }
      steps {
-        sh " mvn sonar:sonar -Dsonar.host.url=$SONARQUBE_URL:$SONARQUBE_PORT -Dsonar.login=$SONARQUBE_TOKEN"
+        sh " mvn sonar:sonar -Dsonar.host.url=$SONARQUBE_URL:$SONARQUBE_PORT -Dsonar.login=$SONARQUBE_TOKEN" 
+		
 
      }
     }
@@ -180,7 +184,7 @@ pipeline {
    post {
     always {
      // using warning next gen plugin
-     recordIssues aggregatingResults: true, tools: [javaDoc(), checkStyle(pattern: '**/target/checkstyle-result.xml'), findBugs(pattern: '**/target/findbugsXml.xml', useRankAsPriority: true), pmdParser(pattern: '**/target/pmd.xml')]
+     recordIssues aggregatingResults: true, tools: [mavenConsole(), java(), javaDoc(), checkStyle(pattern: '**/target/checkstyle-result.xml'), findBugs(pattern: '**/target/findbugsXml.xml', useRankAsPriority: true), pmdParser(pattern: '**/target/pmd.xml')]
     }
    }
   }
