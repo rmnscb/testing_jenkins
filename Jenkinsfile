@@ -305,7 +305,7 @@ NEXUS_PROTOCOL = 'http'
 NEXUS_URL = 'nexus:8081'
 NEXUS_REPOSITORY = 'maven-snapshots'
 NEXUS_CREDENTIAL_ID = 'nexus-credentials'
-SONARQUBE_URL = 'http://172.18.0.3'
+SONARQUBE_URL = 'http://localhost'
 SONARQUBE_PORT = '9000'
 SONARQUBE_TOKEN = '76e028134d617de20fb2a66664a3f995907984b9'
 }
