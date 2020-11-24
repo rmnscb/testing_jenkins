@@ -45,7 +45,9 @@ pipeline {
       }
      }
      steps {
-      sh ' mvn clean compile'
+       sh 'mvn clean install'
+      sh 'mvn clean compile'
+      
      }
     }
     stage('CheckStyle') {
