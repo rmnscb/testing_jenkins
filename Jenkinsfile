@@ -175,7 +175,7 @@ pipeline {
       }
      }
      steps {
-       // sh "mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dsonar.branch=${env.BRANCH_NAME}"
+        sh "mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dsonar.branch=${env.BRANCH_NAME}"
       sh "mvn sonar:sonar"
 
        sh " mvn clean verify -P sonar \
