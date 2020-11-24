@@ -175,15 +175,12 @@ pipeline {
       }
      }
      steps {
-        sh "mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dsonar.branch=${env.BRANCH_NAME}"
-      sh "mvn sonar:sonar"
+      //  sh "mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dsonar.branch=${env.BRANCH_NAME}"
+      // sh "mvn sonar:sonar"
 
-       sh " mvn clean verify -P sonar \
-    -Dsonar.login=$SONARQUBE_TOKEN"
+      // sh " mvn clean verify -P sonar  -Dsonar.login=$SONARQUBE_TOKEN"
 
-        sh " mvn sonar:sonar \
-  -Dsonar.host.url=http://sonarqube:9000 \
-  -Dsonar.login=fd8bfb60348c7b145dd631dc4ff1d88990ddebbe" 
+       // sh " mvn sonar:sonar  -Dsonar.host.url=http://sonarqube:9000  -Dsonar.login=fd8bfb60348c7b145dd631dc4ff1d88990ddebbe" 
 		
 
      }
