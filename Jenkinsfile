@@ -16,7 +16,7 @@ pipeline {
     to obtains this address : $ docker-machine ip
     Linux: set localhost to SONARQUBE_URL
   */
-  SONARQUBE_URL = "http://172.18.0.2"
+  SONARQUBE_URL = "http://localhost"
   SONARQUBE_PORT = "9000"
   SONARQUBE_TOKEN = "76e028134d617de20fb2a66664a3f995907984b9"
  }
@@ -62,7 +62,7 @@ pipeline {
        //canRunOnFailed: true,
        defaultEncoding: '',
        healthy: '100',
-       pattern: '*  * / target/checkstyle-result.xml',
+       pattern: ' * * /target/checkstyle-result.xml',
        unHealthy: '90',
        //useStableBuildAsReference: true
       ]) */
@@ -129,7 +129,7 @@ pipeline {
      steps {
       sh ' mvn pmd:pmd'
       // using pmd plugin
-	  recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/target/pmd.xml')
+	  recordIssues enabledForFailure: true, tool: pmdParser(pattern: '**/pmd.xml')
      // step([$class: 'PmdPublisher', pattern: '**/target/pmd.xml'])
      }
     }
@@ -143,8 +143,10 @@ pipeline {
      }
      steps {
       sh ' mvn findbugs:findbugs'
+	  recordIssues enabledForFailure: true, tool: findBugs(pattern: '**/findbugsXml.xml')
+	   
       // using findbugs plugin
-      findbugs pattern: '**/target/findbugsXml.xml'
+      // findbugs pattern: '**/target/findbugsXml.xml'
      }
     }
     stage('JavaDoc') {
@@ -157,7 +159,8 @@ pipeline {
      }
      steps {
       sh ' mvn javadoc:javadoc'
-      step([$class: 'JavadocArchiver', javadocDir: './target/site/apidocs', keepAll: 'true'])
+	  recordIssues enabledForFailure: true, tools: [mavenConsole(), java(), javaDoc()]
+      // step([$class: 'JavadocArchiver', javadocDir: './target/site/apidocs', keepAll: 'true'])
      }
     }
     stage('SonarQube') {
