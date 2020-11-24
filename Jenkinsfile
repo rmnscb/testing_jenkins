@@ -20,7 +20,7 @@ pipeline {
   i.e we can use either @ip, hostname (default service name) or the id of the container
   to ping/connect to the containers.
   */
-  SONARQUBE_URL = "http://172.18.0.3" 
+  SONARQUBE_URL = "http://sonarqube" 
   SONARQUBE_PORT = "9000"
   SONARQUBE_TOKEN = "fd8bfb60348c7b145dd631dc4ff1d88990ddebbe"
  }
