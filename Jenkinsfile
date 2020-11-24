@@ -181,6 +181,7 @@ pipeline {
       // sh " mvn clean verify -P sonar  -Dsonar.login=$SONARQUBE_TOKEN"
 
        // sh " mvn sonar:sonar  -Dsonar.host.url=http://sonarqube:9000  -Dsonar.login=fd8bfb60348c7b145dd631dc4ff1d88990ddebbe" 
+	     println "done."
 		
 
      }
