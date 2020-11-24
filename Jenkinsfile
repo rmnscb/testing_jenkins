@@ -161,7 +161,7 @@ pipeline {
 
           }
           steps {
-            sh " mvn sonar:sonar -Dsonar.host.url=$SONARQUBE_URL:$SONARQUBE_PORT -Dsonar.login=$SONARQUBE_TOKEN"
+            sh "mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000"
           }
         }
 
