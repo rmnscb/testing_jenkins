@@ -45,10 +45,7 @@ pipeline {
       }
      }
      steps {
-       sh 'mvn clean install'
-      sh 'mvn clean compile'
-     // sh 'mvn install'
-      
+        sh 'mvn clean compile'      
      }
     }
     stage('CheckStyle') {
@@ -179,7 +176,14 @@ pipeline {
      }
      steps {
        // sh "mvn sonar:sonar -Dsonar.host.url=http://sonarqube:9000 -Dsonar.branch=${env.BRANCH_NAME}"
-        sh " mvn sonar:sonar  -Dsonar.host.url='-Dsonar.host.url=172.18.0.3:9000' " 
+      sh "mvn sonar:sonar"
+
+       sh " mvn clean verify -P sonar \
+    -Dsonar.login=$SONARQUBE_TOKEN"
+
+        sh " mvn sonar:sonar \
+  -Dsonar.host.url=http://sonarqube:9000 \
+  -Dsonar.login=fd8bfb60348c7b145dd631dc4ff1d88990ddebbe" 
 		
 
      }
