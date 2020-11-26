@@ -76,7 +76,7 @@ pipeline {
   }
   stage('Unit Tests') {
    when {
-    anyOf { branch 'master'; branch 'develop' }
+    anyOf { branch 'master'; branch 'develop' ; branch 'main'}
    }
    agent {
     docker {
@@ -96,7 +96,7 @@ pipeline {
   }
   stage('Integration Tests') {
    when {
-    anyOf { branch 'master'; branch 'develop' }
+    anyOf { branch 'master'; branch 'develop'  ; branch 'main'}
    }
    agent {
     docker {
@@ -196,7 +196,7 @@ pipeline {
   }
   stage('Deploy Artifact To Nexus') {
    when {
-    anyOf { branch 'master'; branch 'develop' }
+    anyOf { branch 'master'; branch 'develop'  ; branch 'main'}
    }
    steps {
     script {
@@ -244,7 +244,7 @@ pipeline {
   }
   stage('Deploy to Staging Servers') {
    when {
-    anyOf { branch 'master'; branch 'develop' }
+    anyOf { branch 'master'; branch 'develop'  ; branch 'main'}
    }
    agent {
     docker {
@@ -278,7 +278,7 @@ pipeline {
   }
    stage('Deploy to Production Servers') {
    when {
-    branch 'master'
+	   anyOf { branch 'master'; branch 'main'}
    }
    agent {
     docker {
