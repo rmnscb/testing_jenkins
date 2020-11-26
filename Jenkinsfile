@@ -203,6 +203,8 @@ pipeline {
    }
    steps {
     script {
+	    // ver este site para fazer a  configuração do nexus
+		// https://medium.com/appfleet/publishing-artifacts-to-sonatype-nexus-using-jenkins-pipelines-db8c1412dc7
      unstash 'pom'
      unstash 'artifact'
      // Read POM xml file using 'readMavenPom' step , this step 'readMavenPom' is included in: https://plugins.jenkins.io/pipeline-utility-steps
