@@ -4,8 +4,8 @@ pipeline {
   // This can be nexus3 or nexus2
   NEXUS_VERSION = "nexus2"
   // This can be http or https
-  // NEXUS_PROTOCOL = "http"
-NEXUS_PROTOCOL = ""
+  NEXUS_PROTOCOL = "http"
+
   // Where your Nexus is running. In my case:
   // NEXUS_URL = "ec2-52-212-29-159.eu-west-1.compute.amazonaws.com:8081"
    NEXUS_URL = "nexus:8081"
