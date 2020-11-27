@@ -8,8 +8,8 @@ pipeline {
 
   // Where your Nexus is running. In my case:
   // NEXUS_URL = "ec2-52-212-29-159.eu-west-1.compute.amazonaws.com:8081"
-	 // windows iponfig e tirar o ip da nossa maquina
-   NEXUS_URL = "172.29.192.1:8081"
+	 // windows iponfig e tirar o ip da nossa maquina valor do "Ethernet adapter vEthernet (WSL):"
+   NEXUS_URL = " 172.31.96.1:8081"
   // Repository where we will upload the artifact
   NEXUS_REPOSITORY = "maven-nexus-repo"
   // Jenkins credential id to authenticate to Nexus OSS
@@ -22,7 +22,7 @@ pipeline {
   i.e we can use either @ip, hostname (default service name) or the id of the container
   to ping/connect to the containers.
   */
-  SONARQUBE_URL = "http://172.29.192.1" 
+  SONARQUBE_URL = "http://172.31.96.1" 
   SONARQUBE_PORT = "9000"
   SONARQUBE_TOKEN = "fd8bfb60348c7b145dd631dc4ff1d88990ddebbe"
  }
