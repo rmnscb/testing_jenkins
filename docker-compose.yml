@@ -3,7 +3,7 @@ version: '3.5'
 services:
 
   jenkins:
-    image: rmnscb/jenkins_docker
+    image: jenkinsci/blueocean
     volumes:
       - ./jenkins-data:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock  # Expose the docker daemon in the container
